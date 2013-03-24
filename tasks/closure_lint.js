@@ -18,6 +18,5 @@ module.exports = function(grunt) {
 
   var ctools = require('./lib/ctools'); 
   grunt.registerMultiTask('closureLint', 'Apply closure linting',
-      function() {ctools.registerTool(this, 'gjslint.py ')});
+      function() {ctools.registerTool(this, 'gjslint.py ');});
 };
-
