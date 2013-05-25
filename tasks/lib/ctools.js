@@ -4,6 +4,7 @@
 
 var grunt = require('grunt'),
     exec = require('child_process').exec,
+    path = require('path'),
     _ = grunt.util._;
 
 module.exports.registerTool = function(task, toolname) {
@@ -28,7 +29,24 @@ module.exports.registerTool = function(task, toolname) {
     cmd += files.join(' ');
     //grunt.log.writeln(cmd);
 
-    var task = exec(cmd, options.execOptions, function(err, stdout, stderr) {
+    // Whether to output the report to a file or stdout
+    var outputResults = options.stdout;
+    delete options.stdout;
+
+    var child = exec(cmd, options.execOptions, function(err, stdout, stderr) {
+      if (outputResults && typeof outputResults === 'string') {
+        outputResults = grunt.template.process(outputResults);
+        var destDir = path.dirname(outputResults);
+        if (!grunt.file.exists(destDir)) {
+          grunt.file.mkdir(destDir);
+        }
+        grunt.file.write(outputResults, stdout);
+        grunt.log.ok('File "' + outputResults + '" created.');
+      }
+      else if (outputResults) {
+        process.stdout.write(stdout);
+      }
+
       if (_.isFunction(options.callback)) {
         options.callback.call(task, err, stdout, stderr, callback);
       } else {
@@ -39,11 +57,7 @@ module.exports.registerTool = function(task, toolname) {
       }
     });
 
-    if (options.stdout) {
-      task.stdout.pipe(process.stdout);
-    }
-
     if (options.stderr) {
-      task.stderr.pipe(process.stderr);
+      child.stderr.pipe(process.stderr);
     }
   };

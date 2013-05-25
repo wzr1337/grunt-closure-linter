@@ -54,10 +54,12 @@ grunt.initConfig({
 ### Options
 
 #### options.stdout
-Type: `Boolean`
+Type: `mixed`
 Default value: `false`
 
-Pipe output to stdout.
+- `true` – write results to stdout;
+- `string` – write results to file specified;
+- `false` – do not write anything.
 
 #### options.stderr
 Type: `Boolean`
