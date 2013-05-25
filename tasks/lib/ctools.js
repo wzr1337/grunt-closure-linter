@@ -23,8 +23,9 @@ module.exports.registerTool = function(task, toolname) {
     });
     //grunt.log.writeflags(options, 'options');
     
-    var cmd = closureLinterPath + '/' + toolname + files.join(' ');
-    cmd += options.strict ? ' --strict' : '';
+    var cmd = closureLinterPath + '/' + toolname;
+    cmd += options.strict ? ' --strict ' : ' ';
+    cmd += files.join(' ');
     //grunt.log.writeln(cmd);
 
     var task = exec(cmd, options.execOptions, function(err, stdout, stderr) {
