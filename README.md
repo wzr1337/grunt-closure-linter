@@ -20,34 +20,34 @@ grunt.loadNpmTasks('grunt-closure-linter');
 ## The "closure_linter" task
 
 ### Overview
-In your project's Gruntfile, add a section named `closure_linter` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `closureLint` and/or `closureFixStyle` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
   closureLint: {
-      app:{
-        closureLinterPath : '/path/to/closure_linter',
-        src: [ 'app/scripts/controllers/**',
-               'app/scripts/services/**',
-               'app/scripts/app.js' ],
-        options: {
-          stdout: true,
-          strict: true
-        }
+    app:{
+      closureLinterPath : '/path/to/closure_linter/folder',
+      src: [ 'app/scripts/controllers/**',
+             'app/scripts/services/**',
+             'app/scripts/app.js' ],
+      options: {
+        stdout: true,
+        strict: true
       }
-    },
-    closureFixStyle: {
-      app:{
-        closureLinterPath : '/path/to/closure_linter',
-        src: [ 'app/scripts/controllers/**',
-               'app/scripts/services/**',
-               'app/scripts/app.js' ],
-        options: {
-          stdout: true,
-          strict: true
-        }
+    }
+  },
+  closureFixStyle: {
+    app:{
+      closureLinterPath : '/path/to/closure_linter/folder',
+      src: [ 'app/scripts/controllers/**',
+             'app/scripts/services/**',
+             'app/scripts/app.js' ],
+      options: {
+        stdout: true,
+        strict: true
       }
-    },
+    }
+  }
 })
 ```
 
@@ -73,7 +73,7 @@ Default value: `true`
 
 Fail task on errors.
 
-#### options.strickt
+#### options.strict
 Type: `Boolean`
 Default value: `false`
 
