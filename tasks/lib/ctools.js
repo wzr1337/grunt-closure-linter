@@ -3,68 +3,68 @@
  */
 
 var grunt = require('grunt'),
-        exec = require('child_process').exec,
-        path = require('path'),
-        _ = grunt.util._;
+    exec = require('child_process').exec,
+    path = require('path'),
+    _ = grunt.util._;
 
 module.exports.registerTool = function(task, toolname) {
-    var done = task.async(),
-            files = [],
-            closureLinterPath = task.data.closureLinterPath,
-            options = grunt.task.current.options(
-            {
-                stdout : true,
-                stderr : false,
-                failOnError : true,
-                strict : false
-            });
-    // Iterate over all src-dest file pairs.
-    task.files.forEach(function(f) {
-        files = files.concat(grunt.file.expand(f.src));
-    });
-    //grunt.log.writeflags(options, 'options');
+  var done = task.async(),
+      files = [],
+      closureLinterPath = task.data.closureLinterPath,
+      options = grunt.task.current.options(
+      {
+        stdout : true,
+        stderr : false,
+        failOnError : true,
+        strict : false
+      });
+  // Iterate over all src-dest file pairs.
+  task.files.forEach(function(f) {
+    files = files.concat(grunt.file.expand(f.src));
+  });
+  //grunt.log.writeflags(options, 'options');
 
-    var cmd = closureLinterPath + '/' + toolname;
-    cmd += options.strict ? ' --strict ' : ' ';
-    // add commands to send to gjslint from option called opt
-    cmd += options.opt + ' ';
-    cmd += files.join(' ');
-    //grunt.log.writeln(cmd);
+  var cmd = closureLinterPath + '/' + toolname;
+  cmd += options.strict ? ' --strict ' : ' ';
+  // add commands to send to gjslint from option called opt
+  cmd += options.opt + ' ';
+  cmd += files.join(' ');
+  //grunt.log.writeln(cmd);
 
-    // Whether to output the report to a file or stdout
-    var outputResults = options.stdout;
-    delete options.stdout;
+  // Whether to output the report to a file or stdout
+  var outputResults = options.stdout;
+  delete options.stdout;
 
-    var reportFormat = options.reporter || 'closure';
-    delete options.reporter;
+  var reportFormat = options.reporter || 'closure';
+  delete options.reporter;
 
-    var convertResults;
-    if (0 === toolname.indexOf('gjslint') && reportFormat) {
-        convertResults = Converter[reportFormat.toUpperCase()];
+  var convertResults;
+  if (0 === toolname.indexOf('gjslint') && reportFormat) {
+    convertResults = Converter[reportFormat.toUpperCase()];
+  }
+
+  var linterCallback = function(error, stdout, stderr) {
+    if (!error && outputResults) {
+      writeResults(stdout, outputResults);
     }
+    if (_.isFunction(options.callback)) {
+      options.callback.call(task, error, stdout, stderr, done);
+    } else {
+      if (error && options.failOnError) {
+        writeResults(stdout, null);
+        grunt.warn(error);
+      }
+      done();
+    }
+  };
+  var child = exec(cmd, options.execOptions, function(error, stdout, stderr) {
+    convertResults ?
+        convertResults(stdout, linterCallback) :
+        linterCallback.apply(null, arguments);
+  });
 
-    var linterCallback = function(error, stdout, stderr) {
-        if (!error && outputResults) {
-            writeResults(stdout, outputResults);
-        }
-        if (_.isFunction(options.callback)) {
-            options.callback.call(task, error, stdout, stderr, done);
-        } else {
-            if (error && options.failOnError) {
-                writeResults(stdout, null);
-                grunt.warn(error);
-            }
-            done();
-        }
-    };
-    var child = exec(cmd, options.execOptions, function(error, stdout, stderr) {
-        convertResults ?
-                convertResults(stdout, linterCallback) :
-                linterCallback.apply(null, arguments);
-    });
-
-    if (options.stderr) {
-        child.stderr.pipe(process.stderr);
+  if (options.stderr) {
+    child.stderr.pipe(process.stderr);
 }
 };
 
@@ -75,19 +75,19 @@ module.exports.registerTool = function(task, toolname) {
  * @param {string=} opt_filePath File to write results into. Optional.
  */
 function writeResults(results, opt_filePath) {
-    if (typeof opt_filePath === 'string') {
-        var filePath = opt_filePath;
-        filePath = grunt.template.process(filePath);
-        var destDir = path.dirname(filePath);
-        if (!grunt.file.exists(destDir)) {
-            grunt.file.mkdir(destDir);
-        }
-        grunt.file.write(filePath, results);
-        grunt.log.ok('File "' + filePath + '" created.');
+  if (typeof opt_filePath === 'string') {
+    var filePath = opt_filePath;
+    filePath = grunt.template.process(filePath);
+    var destDir = path.dirname(filePath);
+    if (!grunt.file.exists(destDir)) {
+      grunt.file.mkdir(destDir);
     }
-    else {
-        process.stdout.write(results);
-    }
+    grunt.file.write(filePath, results);
+    grunt.log.ok('File "' + filePath + '" created.');
+  }
+  else {
+    process.stdout.write(results);
+  }
 }
 
 
@@ -96,8 +96,8 @@ function writeResults(results, opt_filePath) {
  * @enum {function|undefined}
  */
 var Converter = {
-    CLOSURE: undefined,  // Conversion is not needed.
-    JSLINT: jslintConverter
+  CLOSURE: undefined,  // Conversion is not needed.
+  JSLINT: jslintConverter
 };
 
 
@@ -115,7 +115,7 @@ var CONVERTERS_ROOT_DIR = path.join(__dirname, '..', '..', 'converters');
  * @param {!function} callback Operation callback.
  */
 function jslintConverter(results, callback) {
-    var cmd = path.join(CONVERTERS_ROOT_DIR, 'jslint.py');
-    var converterProcess = exec(cmd, null, callback);
-    converterProcess.stdin.end(results);
+  var cmd = path.join(CONVERTERS_ROOT_DIR, 'jslint.py');
+  var converterProcess = exec(cmd, null, callback);
+  converterProcess.stdin.end(results);
 }
