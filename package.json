@@ -1,12 +1,16 @@
 {
   "name": "grunt-closure-linter",
   "description": "Google closure linting",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "homepage": "https://github.com/wzr1337/grunt-closure-linter",
   "author": {
     "name": "Patrick Bartsch",
     "email": "bartsch98@gmail.com"
   },
+  "contributors": [{
+    "name": "Steven Lu",
+    "email": "stevenlu443@gmail.com"
+  }],
   "repository": {
     "type": "git",
     "url": "git://github.com/wzr1337/grunt-closure-linter"
