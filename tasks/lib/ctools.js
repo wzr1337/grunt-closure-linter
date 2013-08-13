@@ -13,19 +13,21 @@ module.exports.registerTool = function(task, toolname) {
         closureLinterPath = task.data.closureLinterPath,
         options = grunt.task.current.options(
         {
-          stdout : false,
+          stdout : true,
           stderr : false,
           failOnError : true,
           strict : false
-        }); 
+        });
     // Iterate over all src-dest file pairs.
     task.files.forEach(function(f) {
       files = files.concat(grunt.file.expand(f.src));
     });
     //grunt.log.writeflags(options, 'options');
-    
-    var cmd = closureLinterPath + '/' + toolname;
+
+    var cmd = toolname;
     cmd += options.strict ? ' --strict ' : ' ';
+    // add commands to send to gjslint from option called opt
+    cmd += options.opt + ' ';
     cmd += files.join(' ');
     //grunt.log.writeln(cmd);
 
@@ -49,12 +51,12 @@ module.exports.registerTool = function(task, toolname) {
         options.callback.call(task, error, stdout, stderr, done);
       } else {
         if (error && options.failOnError) {
+          writeResults(stdout, null);
           grunt.warn(error);
         }
         done();
       }
     };
-
     var child = exec(cmd, options.execOptions, function(error, stdout, stderr) {
       convertResults ?
           convertResults(stdout, linterCallback) :
