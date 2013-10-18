@@ -17,5 +17,5 @@
 module.exports = function(grunt) {
   var ctools = require('./lib/ctools');
   grunt.registerMultiTask('closureFixStyle', 'Apply closure style fixes',
-      function() {ctools.registerTool(this, 'fixjsstyle');});
+      function() {ctools.registerTool(this, 'fixjsstyle.py');});
 };
