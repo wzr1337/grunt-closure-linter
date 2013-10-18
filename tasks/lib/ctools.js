@@ -24,7 +24,7 @@ module.exports.registerTool = function(task, toolname) {
     });
     //grunt.log.writeflags(options, 'options');
 
-    var cmd = toolname;
+    var cmd = closureLinterPath + '/' + toolname;
     cmd += options.strict ? ' --strict ' : ' ';
     // add commands to send to gjslint from option called opt
     cmd += options.opt + ' ';
