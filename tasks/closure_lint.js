@@ -3,7 +3,7 @@
  * @copyright Patrick Bartsch 2013
  * @author Patrick Bartsch <bartsch98@gmail.com>
  * @license MIT
- * 
+ *
  * @module tasks/grunt-closure-linter
  */
 'use strict';
@@ -16,7 +16,7 @@
  */
 module.exports = function(grunt) {
 
-  var ctools = require('./lib/ctools'); 
+  var ctools = require('./lib/ctools');
   grunt.registerMultiTask('closureLint', 'Apply closure linting',
       function() {ctools.registerTool(this, 'gjslint.py');});
 };
