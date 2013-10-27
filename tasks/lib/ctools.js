@@ -10,7 +10,7 @@ var grunt = require('grunt'),
 module.exports.registerTool = function(task, toolname) {
     var done = task.async(),
         files = [],
-        closureLinterPath = task.data.closureLinterPath,
+        closureLinterPath = task.data.closureLinterPath || '/usr/local/bin',
         options = grunt.task.current.options(
         {
           stdout : true,
@@ -18,6 +18,10 @@ module.exports.registerTool = function(task, toolname) {
           failOnError : true,
           strict : false
         });
+
+    // Toolname in options
+    toolname = task.data.command || toolname;
+
     // Iterate over all src-dest file pairs.
     task.files.forEach(function(f) {
       files = files.concat(grunt.file.expand(f.src));

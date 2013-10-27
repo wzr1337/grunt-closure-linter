@@ -22,11 +22,14 @@ grunt.loadNpmTasks('grunt-closure-linter');
 ### Overview
 In your project's Gruntfile, add a section named `closureLint` and/or `closureFixStyle` to the data object passed into `grunt.initConfig()`.
 
+Use the command attribute to point to a specific command if yours has not the default name.
+
 ```js
 grunt.initConfig({
   closureLint: {
     app:{
       closureLinterPath : '/path/to/closure_linter/folder',
+      command: 'gjslint',
       src: [ 'app/scripts/controllers/**',
              'app/scripts/services/**',
              'app/scripts/app.js' ],
@@ -39,6 +42,7 @@ grunt.initConfig({
   closureFixStyle: {
     app:{
       closureLinterPath : '/path/to/closure_linter/folder',
+      command: 'fixjsstyle',
       src: [ 'app/scripts/controllers/**',
              'app/scripts/services/**',
              'app/scripts/app.js' ],
