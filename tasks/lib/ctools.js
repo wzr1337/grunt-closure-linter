@@ -10,7 +10,7 @@ var grunt = require('grunt'),
 module.exports.registerTool = function(task, toolname) {
     var done = task.async(),
         files = [],
-        closureLinterPath = task.data.closureLinterPath || '/usr/local/bin',
+        closureLinterPath = task.data.closureLinterPath,
         options = grunt.task.current.options(
         {
           stdout : true,
@@ -28,7 +28,7 @@ module.exports.registerTool = function(task, toolname) {
     });
     //grunt.log.writeflags(options, 'options');
 
-    var cmd = closureLinterPath + '/' + toolname;
+    var cmd = (closureLinterPath ? closureLinterPath + '/' : '') + toolname;
     cmd += options.strict ? ' --strict ' : ' ';
     // add commands to send to gjslint from option called opt
     cmd += options.opt ? options.opt + ' ' : '';
