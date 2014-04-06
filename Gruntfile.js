@@ -2,7 +2,7 @@
  * grunt-closure-linter
  * https://github.com/wzr1337/grunt-closure-linter
  *
- * Copyright (c) 2013 Patrick Bartsch
+ * Copyright (c) 2013-2014 Patrick Bartsch
  * Licensed under the MIT license.
  */
 
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    closureLint: {
+    closure_linter: {
       default_options: {
         options: {
         },
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'closureLint', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'closure_linter', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
