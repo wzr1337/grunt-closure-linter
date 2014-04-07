@@ -1,7 +1,7 @@
 {
   "name": "grunt-closure-linter",
   "description": "Google closure linting",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "homepage": "https://github.com/wzr1337/grunt-closure-linter",
   "author": {
     "name": "Patrick Bartsch",
@@ -32,12 +32,17 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt": "~0.4.0rc7"
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt": "~0.4.3"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.3"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "linter",
+    "closurelinter"
   ]
 }
