@@ -1,3 +1,8 @@
+# DISCONTIUATION
+
+*Sorry for not working on this project for a long time. I will not further support this project, but I still leave it accessible to those, who use grunt-closure-linter in theri projects. If anyone is interested in taking over the project, let me know!*
+
+
 # grunt-closure-linter
 
 > Google closure linting
